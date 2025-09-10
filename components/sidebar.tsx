@@ -80,7 +80,7 @@ export function Sidebar({ activeModule, onModuleChange }: SidebarProps) {
       {/* Header */}
       <div className="p-4 border-b border-sidebar-border">
         <div className="flex items-center justify-between">
-          {!isCollapsed && <h1 className="text-xl font-bold text-sidebar-foreground">visualgv.com</h1>}
+          {!isCollapsed && <h1 className="text-xl font-bold text-sidebar-foreground">Visualgv.com</h1>}
           <Button
             variant="ghost"
             size="sm"
