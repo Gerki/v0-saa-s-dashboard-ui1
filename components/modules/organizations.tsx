@@ -69,7 +69,7 @@ export function OrganizationsModule() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-foreground mb-2">Organizations</h1>
-        <p className="text-muted-foreground">Manage your organizations and invite team members.</p>
+        <p className="text-muted-foreground">Create an Organization  - Manage your organizations and invite team members.</p>
       </div>
 
       {/* Create Organization */}

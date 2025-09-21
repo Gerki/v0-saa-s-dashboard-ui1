@@ -22,20 +22,36 @@ import {
   Shield,
   Printer,
   Wrench,
+  LogOut,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { createClient } from "@/lib/supabase/client"
+import { useRouter } from "next/navigation"
+import type { User } from "@supabase/supabase-js"
 
 interface SidebarProps {
   activeModule: string
   onModuleChange: (module: string) => void
+  user: User
 }
 
-export function Sidebar({ activeModule, onModuleChange }: SidebarProps) {
+export function Sidebar({ activeModule, onModuleChange, user }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [expandedItems, setExpandedItems] = useState<string[]>([])
+  const router = useRouter()
 
   const toggleExpanded = (item: string) => {
     setExpandedItems((prev) => (prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]))
+  }
+
+  const handleLogout = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    router.push("/auth/login")
+  }
+
+  const getUserInitials = (email: string) => {
+    return email.split("@")[0].substring(0, 2).toUpperCase()
   }
 
   const navigationItems = [
@@ -161,12 +177,25 @@ export function Sidebar({ activeModule, onModuleChange }: SidebarProps) {
         <div className="absolute bottom-4 left-4 right-4">
           <div className="flex items-center space-x-3 p-3 bg-sidebar-primary rounded-lg">
             <div className="w-8 h-8 bg-sidebar-accent rounded-full flex items-center justify-center">
-              <span className="text-sm font-medium text-sidebar-accent-foreground">JU</span>
+              <span className="text-sm font-medium text-sidebar-accent-foreground">
+                {getUserInitials(user.email || "")}
+              </span>
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium text-sidebar-foreground">John User</p>
-              <p className="text-xs text-muted-foreground">john@visualgv.com</p>
+              <p className="text-sm font-medium text-sidebar-foreground truncate">
+                {user.email?.split("@")[0] || "User"}
+              </p>
+              <p className="text-xs text-muted-foreground truncate">{user.email}</p>
             </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleLogout}
+              className="text-muted-foreground hover:text-sidebar-foreground"
+              title="Logout"
+            >
+              <LogOut className="h-4 w-4" />
+            </Button>
           </div>
         </div>
       )}
