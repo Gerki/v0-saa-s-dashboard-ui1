@@ -4,10 +4,10 @@ import { createServerClient } from "@/lib/supabase/server"
 import { WelcomeEmail } from "@/components/emails/welcome-email"
 import { FileUploadNotification } from "@/components/emails/file-upload-notification"
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 export async function POST(request: NextRequest) {
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY)
+
     // Check authentication
     const supabase = createServerClient()
     const {
