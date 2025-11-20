@@ -25,7 +25,6 @@ import {
   LogOut,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import type { User } from "@supabase/supabase-js"
 
@@ -45,9 +44,13 @@ export function Sidebar({ activeModule, onModuleChange, user }: SidebarProps) {
   }
 
   const handleLogout = async () => {
+    /*
     const supabase = createClient()
     await supabase.auth.signOut()
     router.push("/auth/login")
+    */
+    console.log("Logout clicked (Auth disabled)")
+    router.push("/")
   }
 
   const getUserInitials = (email: string) => {
