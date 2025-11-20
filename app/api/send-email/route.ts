@@ -3,6 +3,7 @@ import { type NextRequest, NextResponse } from "next/server"
 import { createServerClient } from "@/lib/supabase/server"
 import { WelcomeEmail } from "@/components/emails/welcome-email"
 import { FileUploadNotification } from "@/components/emails/file-upload-notification"
+import { OrganizationInvitationEmail } from "@/components/emails/organization-invitation-email"
 
 export async function POST(request: NextRequest) {
   try {
@@ -39,6 +40,16 @@ export async function POST(request: NextRequest) {
           fileName: data.fileName,
           fileUrl: data.fileUrl,
           uploaderName: data.uploaderName,
+        })
+        break
+
+      case "organization-invitation":
+        subject = `Invitation to join ${data.organizationName}`
+        emailContent = OrganizationInvitationEmail({
+          organizationName: data.organizationName,
+          inviterName: data.inviterName,
+          invitationUrl: data.invitationUrl,
+          expiresAt: data.expiresAt,
         })
         break
 
